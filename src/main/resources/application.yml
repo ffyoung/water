@@ -25,6 +25,9 @@ spring:
         test-on-return: false
         pool-prepared-statements: true
         max-open-prepared-statements: 20
+    mvc:
+      static-path-pattern: /static/**
+
 #######################################################
 #
 # freemarker 静态资源配置
