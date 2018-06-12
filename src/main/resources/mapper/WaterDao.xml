@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bfs.mapper.WaterMapper">
+
+
+    <resultMap id="MyResutlMap" type="com.bfs.entity.Water">
+        <result property="water_level" column="water_level" jdbcType="VARCHAR"/>
+        <result property="flow" column="flow" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+
+    <insert id="addWater" parameterType="java.util.List">
+        insert into water(water_level,flow)
+        values
+        <foreach collection="list" index="index" item="item" separator=",">
+            (#{item.water_level,jdbcType=VARCHAR},#{item.flow,jdbcType=VARCHAR})
+        </foreach>
+    </insert>
+</mapper>
+
+
