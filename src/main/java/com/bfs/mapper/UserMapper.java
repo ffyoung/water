@@ -17,6 +17,9 @@ public interface UserMapper {
         @Select("select * from t_user")
         List<User> getAll();
 
+        @Select("select * from t_user where username = #{username} and password = #{password}")
+        User loginSure(User user);
+
 
     /**
      * @Select("SELECT * FROM users")
