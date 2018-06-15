@@ -1,7 +1,9 @@
 package com.bfs.water;
 
 import com.bfs.entity.User;
+import com.bfs.entity.Water;
 import com.bfs.mapper.UserMapper;
+import com.bfs.mapper.WaterMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,14 +20,12 @@ public class WaterApplicationTests {
 	@Autowired
 	private UserMapper userMapper;
 
+	@Autowired
+	private WaterMapper waterMapper;
+
 	@Test
 	public void contextLoads() {
-		List<User> userList = userMapper.getAll();
-		for(User users: userList){
-			System.out.println(users.getUsername());
-		}
-
-
+		Water water = waterMapper.selectOne("0.001");
+		System.out.println(water.toString());
 	}
-
 }

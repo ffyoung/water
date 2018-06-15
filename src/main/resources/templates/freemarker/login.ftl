@@ -49,7 +49,7 @@
                         return;
                     } else {
                         teem = result.teemId;
-                        window.location.href ="index/"+teem;
+                        window.location.href ="index";
                         setTimeout(function () {
                             //登录返回
                         }, 1000)
