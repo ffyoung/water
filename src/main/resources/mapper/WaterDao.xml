@@ -6,17 +6,23 @@
 
 
     <resultMap id="MyResutlMap" type="com.bfs.entity.Water">
-        <result property="water_level" column="water_level" jdbcType="VARCHAR"/>
+        <id property="id" column="id" jdbcType="INTEGER"></id>
+        <result property="water_depth" column="water_depth" jdbcType="VARCHAR"/>
         <result property="flow" column="flow" jdbcType="VARCHAR"/>
+        <result property="area" column="area" jdbcType="VARCHAR"/>
+        <result property="velocity" column="velocity" jdbcType="VARCHAR"/>
+        <result property="remark" column="remark" jdbcType="VARCHAR"/>
+
     </resultMap>
 
-
-
     <insert id="addWater" parameterType="java.util.List">
-        insert into water(water_level,flow)
+        INSERT
+        into
+        t_water
         values
         <foreach collection="list" index="index" item="item" separator=",">
-            (#{item.water_level,jdbcType=VARCHAR},#{item.flow,jdbcType=VARCHAR})
+            (null,#{item.water_depth,jdbcType=VARCHAR},#{item.flow,jdbcType=VARCHAR},
+            #{item.area,jdbcType=VARCHAR},#{item.velocity,jdbcType=VARCHAR},#{item.remark,jdbcType=VARCHAR})
         </foreach>
     </insert>
 </mapper>

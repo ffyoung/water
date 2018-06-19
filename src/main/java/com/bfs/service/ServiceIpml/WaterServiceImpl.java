@@ -29,10 +29,13 @@ public class WaterServiceImpl implements WaterService {
             List<Object> ob = listob.get(i);
             Water water = new Water();
 //            System.out.println("##################ob.listSize"+ob.size());
-            System.out.println("水位的值"+ob.get(0).toString());
-            System.out.println("流量的值"+ob.get(1).toString());
-            water.setWater_level(ob.get(0).toString());
+//            System.out.println("水位的值"+ob.get(0).toString());
+//            System.out.println("流量的值"+ob.get(1).toString());
+            water.setWater_depth(ob.get(0).toString());
             water.setFlow(ob.get(1).toString());
+            water.setArea(ob.get(2).toString());
+            water.setVelocity(ob.get(3).toString());
+            water.setRemark(ob.get(4).toString());
             waterList.add(water);
 //            System.out.println(water.toString());
 
