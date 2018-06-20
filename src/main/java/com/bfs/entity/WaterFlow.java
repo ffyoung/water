@@ -13,18 +13,28 @@ public class WaterFlow {
 
     /** id */
     private Integer id;
-    /** 上一次获取的时间 */
-    private Date lastDate;
-    /** 最新获取的时间 */
-    private Date newDate;
-    /** 上游水位高度 */
-    private BigDecimal topHight;
-    /** 下游水位高度 */
-    private BigDecimal bottomHight;
-    /** 瞬时流量 */
+    /** 检测断面编号 */
+    private String monum;
+    /** 对比断面编号 */
+    private String conum;
+    /** 流速 */
+    private BigDecimal velocity;
+    /** 开始时间 */
+    private Date startDate;
+    /** 结束时间 */
+    private Date endDate;
+    /** 检测断面水深 */
+    private BigDecimal moh;
+    /** 对比断面水深 */
+    private BigDecimal coh;
+    /** 断面流量 */
     private BigDecimal flow;
-    /** 总流量 */
+    /** 时段累计输配水量 */
+    private BigDecimal timeFlow;
+    /** 区间累计水量 */
     private BigDecimal totalFlow;
+    /** 备注 */
+    private String remark;
 
     public Integer getId() {
         return id;
@@ -34,36 +44,60 @@ public class WaterFlow {
         this.id = id;
     }
 
-    public Date getLastDate() {
-        return lastDate;
+    public String getMonum() {
+        return monum;
     }
 
-    public void setLastDate(Date lastDate) {
-        this.lastDate = lastDate;
+    public void setMonum(String monum) {
+        this.monum = monum;
     }
 
-    public Date getNewDate() {
-        return newDate;
+    public String getConum() {
+        return conum;
     }
 
-    public void setNewDate(Date newDate) {
-        this.newDate = newDate;
+    public void setConum(String conum) {
+        this.conum = conum;
     }
 
-    public BigDecimal getTopHight() {
-        return topHight;
+    public BigDecimal getVelocity() {
+        return velocity;
     }
 
-    public void setTopHight(BigDecimal topHight) {
-        this.topHight = topHight;
+    public void setVelocity(BigDecimal velocity) {
+        this.velocity = velocity;
     }
 
-    public BigDecimal getBottomHight() {
-        return bottomHight;
+    public Date getStartDate() {
+        return startDate;
     }
 
-    public void setBottomHight(BigDecimal bottomHight) {
-        this.bottomHight = bottomHight;
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+
+    public BigDecimal getMoh() {
+        return moh;
+    }
+
+    public void setMoh(BigDecimal moh) {
+        this.moh = moh;
+    }
+
+    public BigDecimal getCoh() {
+        return coh;
+    }
+
+    public void setCoh(BigDecimal coh) {
+        this.coh = coh;
     }
 
     public BigDecimal getFlow() {
@@ -74,6 +108,14 @@ public class WaterFlow {
         this.flow = flow;
     }
 
+    public BigDecimal getTimeFlow() {
+        return timeFlow;
+    }
+
+    public void setTimeFlow(BigDecimal timeFlow) {
+        this.timeFlow = timeFlow;
+    }
+
     public BigDecimal getTotalFlow() {
         return totalFlow;
     }
@@ -82,17 +124,29 @@ public class WaterFlow {
         this.totalFlow = totalFlow;
     }
 
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
 
     @Override
     public String toString() {
         return "WaterFlow{" +
                 "id=" + id +
-                ", lastDate=" + lastDate +
-                ", newDate=" + newDate +
-                ", topHight=" + topHight +
-                ", bottowHight=" + bottomHight +
+                ", monum='" + monum + '\'' +
+                ", conum='" + conum + '\'' +
+                ", velocity=" + velocity +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", moh=" + moh +
+                ", coh=" + coh +
                 ", flow=" + flow +
+                ", timeFlow=" + timeFlow +
                 ", totalFlow=" + totalFlow +
+                ", remark='" + remark + '\'' +
                 '}';
     }
 }

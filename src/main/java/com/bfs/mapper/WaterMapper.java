@@ -11,7 +11,9 @@ public interface WaterMapper {
 
     void addWater(List<Water> waterList);
 
-    @Select("select * from t_water where water_level = #{hight}")
+    @Select("select * from t_water where water_depth = #{hight}")
     Water selectOne(String hight);
+
+
 
 }

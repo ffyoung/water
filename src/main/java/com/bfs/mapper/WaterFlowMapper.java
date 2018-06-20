@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -17,19 +18,47 @@ import java.util.List;
 public interface WaterFlowMapper {
 
 
-    @Insert("INSERT into t_water_flow(id,last_date,new_date,top_hight,bottom_hight,flow,total_flow) values(null, #{lastDate}, #{newDate}, #{topHight}, #{bottomHight}, #{flow}, #{totalFlow})")
+    /**
+     * 存储一个WaterFlow对象
+     * @param waterFlow
+     * @return
+     */
+    @Insert("INSERT into t_water_flow(id,monum,conum,velocity,start_date,end_date,moh,coh,flow,time_flow,total_flow,remark)" +
+            "values(null, #{monum}, #{conum},#{velocity}, #{startDate}, #{endDate},#{moh}, #{coh}, #{flow}, #{timeFlow}, #{totalFlow}, #{remark})")
     int saveWF(WaterFlow waterFlow);
 
-
+    /**
+     * 查询所有WaterFlow
+     * @return
+     */
     @Select("select * from t_water_flow")
     @Results({
-            @Result(property = "lastDate",  column = "last_date"),
-            @Result(property = "newDate", column = "new_date"),
-            @Result(property = "topHight", column = "top_hight"),
-            @Result(property = "bottomHight", column = "bottom_hight"),
+            @Result(property = "startDate",  column = "start_date"),
+            @Result(property = "endDate", column = "end_date"),
+            @Result(property = "timeFlow", column = "time_flow"),
             @Result(property = "totalFlow", column = "total_flow")
     })
     List<WaterFlow> findAllWFS();
+
+
+    /**
+     * 查询监测断面编号
+     * @return
+     */
+    @Select("select monum from t_water_flow group by monum ")
+    String getMonum();
+
+    /**
+     * 查询对比断面编号
+     * @return
+     */
+    @Select("select conum from t_water_flow group by conum ")
+    String getConum();
+
+
+
+    @Select("select end_date from t_water_flow order by id desc limit 1")
+    Date getLastWF();
 
 
 

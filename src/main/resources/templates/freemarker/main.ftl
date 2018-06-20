@@ -13,6 +13,21 @@
             <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
         <script src="/static/js/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+        <style>
+            .table thead th{
+
+                text-align:center;
+                vertical-align: middle !important;
+            }
+            .table tbody tr td{
+                text-align:center;
+            }
+
+
+
+
+        </style>
+
     </head>
 
     <body>
@@ -144,32 +159,61 @@
                     <!-- block -->
                     <div class="block">
                         <div class="navbar navbar-inner block-header">
-                            <div class="muted pull-left">流量表</div>
+                            <div style="font-size: large;text-align: center;">
+                                河南省信阳市市平桥区老鸭河灌区1001001断面监测数据汇总表
+                            </div>
                         </div>
                         <div class="block-content collapse in">
                             <div class="span12">
-                                <table class="table">
+                                <tr>
+                                    <th>监测断面编号：</th>
+                                    <th>${monum}</th>
+                                    <th>对比断面编号：</th>
+                                    <th>${conum}</th>
+                                </tr>
+                                <table class="table" border="1">
                                     <thead>
                                     <tr>
-                                        <th>#</th>
-                                        <th>时间T1</th>
-                                        <th>时间T2</th>
-                                        <th>水位H1（米）</th>
-                                        <th>水位H2（米）</th>
-                                        <th>流量Q1（立方米每小时）</th>
-                                        <th>流量Q2（立方米每小时）</th>
+                                        <th rowspan="2">序号</th>
+                                        <th>监测断面水深H</th>
+                                        <th>断面平均流速V</th>
+                                        <th>断面流量Qn</th>
+                                        <th>对比断面监测水深H0</th>
+                                        <th colspan="3">起止时间</th>
+                                        <th>时段累计输配水量Wq</th>
+                                        <th>区间累计水量</th>
+                                        <th rowspan="2">设备管理</th>
+                                        <th rowspan="2">编辑</th>
+                                        <th rowspan="2">删除</th>
+                                    </tr>
+                                    <tr>
+                                        <th>(MM)</th>
+                                        <th>(M/S)</th>
+                                        <th>[(M³/S)][(L/S]</th>
+                                        <th>(MM)</th>
+                                        <th>YY.MM.DD</th>
+                                        <th>HH.MM.SS</th>
+                                        <th>hh.mm.ss</th>
+                                        <th>(M³)</th>
+                                        <th>(M³)</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     <#list wfList as list>
                                     <tr>
                                         <td>${list_index+1}</td>
-                                        <td>${list.lastDate?string("yyyy-MM-dd hh:mm:ss")}</td>
-                                        <td>${list.newDate?string("yyyy-MM-dd hh:mm:ss")}</td>
-                                        <td>${list.topHight}</td>
-                                        <td>${list.bottomHight}</td>
+                                        <td>${list.moh}</td>
+                                        <td>${list.velocity}</td>
                                         <td>${list.flow}</td>
+                                        <td>${list.coh}</td>
+                                        <td>${(list.endDate?string("yyyy-MM-dd"))?default("~")}</td>
+                                        <td>${(list.startDate?string("HH:mm:ss"))?default("~")}</td>
+                                        <td>${(list.endDate?string("HH:mm:ss"))?default("~")}</td>
+                                        <td>${list.timeFlow}</td>
                                         <td>${list.totalFlow}</td>
+                                        <td><a>设备管理</a></td>
+                                        <td><a>编辑</a></td>
+                                        <td><a>删除</a></td>
                                     </tr>
                                     </#list>
                                     </tbody>
@@ -186,12 +230,6 @@
             <p>&copy; Bili Yan 2018 - More TT <a href="#" target="_blank" title="cssmoban">V_V</a>
         </footer>
     </div>
-    <!--/.fluid-container-->
-
-
-
-
-        <!--/.fluid-container-->
         <script src="/static/js/jquery-1.9.1.min.js"></script>
         <script src="/static/bootstrap/js/bootstrap.min.js"></script>
         <script src="/static/js/jquery.easy-pie-chart.js"></script>
