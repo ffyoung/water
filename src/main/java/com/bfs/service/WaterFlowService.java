@@ -26,6 +26,8 @@ public interface WaterFlowService {
 
     int newWFAndInsert(String moh,String coh);
 
+    int deleteById(Long id);
+
 
 
 
