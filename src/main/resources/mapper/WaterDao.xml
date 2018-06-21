@@ -10,11 +10,21 @@
         <result property="water_depth" column="water_depth" jdbcType="VARCHAR"/>
         <result property="flow" column="flow" jdbcType="VARCHAR"/>
         <result property="area" column="area" jdbcType="VARCHAR"/>
-        <result property="velocity" column="velocity" jdbcType="VARCHAR"/>
+        <result property="volicity" column="volicity" jdbcType="VARCHAR"/>
         <result property="remark" column="remark" jdbcType="VARCHAR"/>
-
     </resultMap>
-
+    <sql id="CommonSql">
+        id,water_depth,flow,area,volicity,remark
+    </sql>
+    <select id="getWaterList" resultMap="MyResutlMap">
+     SELECT <include refid="CommonSql"/>
+        FROM t_water
+        <where>
+        <if test="waterDepth !='' and waterDepth != null">
+        water_depth=#{waterDepth,jdbcType=VARCHAR}
+    </if>
+        </where>
+    </select>
     <insert id="addWater" parameterType="java.util.List">
         INSERT
         into
@@ -22,9 +32,18 @@
         values
         <foreach collection="list" index="index" item="item" separator=",">
             (null,#{item.water_depth,jdbcType=VARCHAR},#{item.flow,jdbcType=VARCHAR},
-            #{item.area,jdbcType=VARCHAR},#{item.velocity,jdbcType=VARCHAR},#{item.remark,jdbcType=VARCHAR})
+            #{item.area,jdbcType=VARCHAR},#{item.volicity,jdbcType=VARCHAR},#{item.remark,jdbcType=VARCHAR})
         </foreach>
     </insert>
+    <update id="updateFlowByWaterDepth" parameterType="com.bfs.entity.Water">
+        UPDATE t_water
+        <set>
+            <if test="flow!=null">
+                flow = #{flow,jdbcType=VARCHAR}
+            </if>
+        </set>
+        where water_depth=#{water_depth,jdbcType=VARCHAR}
+    </update>
 </mapper>
 
 

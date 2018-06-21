@@ -86,7 +86,7 @@ public class ExcelUtil {
         Object value = null;
         DecimalFormat df = new DecimalFormat("0");  //格式化字符类型的数字
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");  //日期格式化
-        DecimalFormat df2 = new DecimalFormat("0.0000");  //格式化数字
+        DecimalFormat df2 = new DecimalFormat("0.000");  //格式化数字
         switch (cell.getCellType()) {
             case Cell.CELL_TYPE_STRING:
                 value = cell.getRichStringCellValue().getString();

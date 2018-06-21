@@ -5,7 +5,7 @@ public class Water {
     private String water_depth;
     private String flow;
     private String area;
-    private String velocity;
+    private String volicity;
     private String remark;
 
     public Integer getId() {
@@ -40,12 +40,12 @@ public class Water {
         this.area = area;
     }
 
-    public String getVelocity() {
-        return velocity;
+    public String getVolicity() {
+        return volicity;
     }
 
-    public void setVelocity(String velocity) {
-        this.velocity = velocity;
+    public void setVolicity(String volicity) {
+        this.volicity = volicity;
     }
 
     public String getRemark() {
@@ -63,7 +63,7 @@ public class Water {
                 ", water_depth='" + water_depth + '\'' +
                 ", flow='" + flow + '\'' +
                 ", area='" + area + '\'' +
-                ", velocity='" + velocity + '\'' +
+                ", volicity='" + volicity + '\'' +
                 ", remark='" + remark + '\'' +
                 '}';
     }

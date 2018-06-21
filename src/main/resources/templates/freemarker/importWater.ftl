@@ -37,7 +37,7 @@
 <body>
 <h3>数据导入</h3>
 <div>
-    <form method="POST" enctype="multipart/form-data" id="form1" action="/import/excel">
+    <form method="POST" enctype="multipart/form-data" id="form1" action="/water/excel">
         <label>上传文件: </label>
         <input id="upfile" type="file" name="upfile"><br> <br>
         <input type="submit" value="上传提交" onclick="return checkData()">

@@ -19,7 +19,7 @@ public interface WaterFlowMapper {
 
 
     /**
-     * 存储一个WaterFlow对象
+      * 存储一个WaterFlow对象
      * @param waterFlow
      * @return
      */
@@ -57,7 +57,7 @@ public interface WaterFlowMapper {
 
 
 
-    @Select("select end_date from t_water_flow order by id desc limit 1")
+    @Select("select end_date from t_water_flow order by id limit 1")
     Date getLastWF();
 
 
