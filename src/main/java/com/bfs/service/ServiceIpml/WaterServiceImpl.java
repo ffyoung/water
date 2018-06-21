@@ -49,7 +49,7 @@ public class WaterServiceImpl implements WaterService {
     @Override
     public PageInfo<Water> getWaterListWithPage(Integer pageNow,Integer pageSize,String waterDepth) {
         pageNow = (pageNow==null)?1:pageNow;
-        pageSize = (pageSize==null)?1:pageSize;
+        pageSize = (pageSize==null)?15:pageSize;
         PageHelper.startPage(pageNow,pageSize);
         List<Water> list = waterMapper.getWaterList(waterDepth);
         PageInfo<Water> pageInfo = new PageInfo<>(list);

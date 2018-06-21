@@ -36,23 +36,24 @@ public class WaterController {
         waterService.addWaterList(file);
         return "freemarker/page/hello";
     }
-    @RequestMapping(value = "/list",method = RequestMethod.GET)
+    @RequestMapping(value = "/list")
     public String getWaterListWithPage(@RequestParam("pageNow") Integer pageNow,
+                                       @RequestParam("pageSize") Integer pageSize,
                                        @RequestParam("waterDepth") String waterDepth,
                                        Model model){
         model.addAttribute("results",false);
-        PageInfo<Water> list = waterService.getWaterListWithPage(pageNow,waterDepth);
+        PageInfo<Water> list = waterService.getWaterListWithPage(pageNow,pageSize,waterDepth);
         if(list.getList().size() >= 1){
             model.addAttribute("results",true);
         }
-        Long totalPage = list.getTotal();
+        int s = (int) list.getTotal();
         String var2 = waterFlowMapper.getConum();
         model.addAttribute("waterlist",list.getList());
-        model.addAttribute("totalPage",totalPage);
+        model.addAttribute("totalPage",s);
         pageNow = pageNow == null?1:pageNow;
         model.addAttribute("currentPage",pageNow);
         model.addAttribute("conum",var2);
-        model.addAttribute("list",list);
+        model.addAttribute("pageSize",pageSize);
         model.addAttribute("waterDepth",waterDepth);
         return "freemarker/list";
     }

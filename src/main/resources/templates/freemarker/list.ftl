@@ -237,9 +237,7 @@
 
     <#--分页-->
     $(function () {
-        console.log("我被执行了！！");
-        console.log( ${totalPage});
-        PagingManage($('#complete'),${totalPage},${pageSize},${currentPage});
+        PagingManage($('#complete'),${totalPage?c},${pageSize},${currentPage});
     });
 
 </script>
