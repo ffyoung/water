@@ -4,8 +4,9 @@ import com.bfs.entity.User;
 import com.bfs.entity.Water;
 import com.bfs.entity.WaterFlow;
 import com.bfs.mapper.UserMapper;
-import com.bfs.mapper.WaterFlowMapper;
 import com.bfs.mapper.WaterMapper;
+import com.bfs.service.WaterFlowService;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,18 +34,9 @@ public class UserController {
     private WaterMapper waterMapper;
 
     @Autowired
-    private WaterFlowMapper waterFlowMapper;
+    private WaterFlowService waterFlowService;
 
     protected Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
-
-    private int temNum = 0;
-
-    private Date temDate;
-
-    private BigDecimal totalFlow = new BigDecimal("0");
-
-    private BigDecimal timeFlow = new BigDecimal("0");
-
 
     @RequestMapping("login")
     public String loginIndex(){
@@ -64,107 +56,35 @@ public class UserController {
     }
 
     @RequestMapping(value = "index")
-    public String index(Model model, @RequestParam("moh")String moh,
-                        @RequestParam("coh")String coh){
-        //初始化一个WaterFlow对象
-        WaterFlow waterFlow = new WaterFlow();
-        //初始化一个当前时间，当请求到来时指定最新的时间
-        Date date = new Date();
-        /**
-         * 先存储一个WaterFlow对象然后再展示
-         * WaterFlow对象一共10个属性
-         * 1.监测断面编号
-         * 2.对比断面编号
-         * 3.流速
-         * 4.开始时间
-         * 5.结束时间
-         * 6.监测断面水位
-         * 7.对比断面水位
-         * 8.流量
-         * 9.时段累积输配水量
-         * 10.区间累积水量
-         * 11.备注
-         */
+    public String index(Model model,
+                        @RequestParam(value = "moh",required = false)String moh,
+                        @RequestParam(value = "coh",required = false)String coh,
+                        @RequestParam(value = "pn",required = false)Integer pageNow,
+                        @RequestParam(value = "ps",required = false)Integer pageSize){
 
-        /** 1.监测断面编号 */
-        String monum = "10010";
-        waterFlow.setMonum(monum);
-
-        /** 2.对比断面编号 */
-        String conum = "10012";
-        waterFlow.setConum(conum);
-
-        /** 3.流速 */
-        BigDecimal ls = new BigDecimal("0");
-        waterFlow.setVelocity(ls);
-
-        Date lastWFDate = waterFlowMapper.getLastWF();
-
-        if( lastWFDate == null){
-            //保证第一次执行，之后每一次不再执行
-            temNum++;
-            // 第一次请求lastDate与newDate相同
-            /** 4.上一次的时间（开始时间） */
-            waterFlow.setStartDate(date);
-            /** 5.当前时间（结束时间） */
-            waterFlow.setEndDate(date);
+        // 新增一个WF对象并且执行insert操作
+        if((moh == null || "".equals(moh))&& (( coh == null || "".equals(coh)))) {
+            //空不执行
         }else {
-            // 给newDate赋值当前时间
-            /** 4.上一次的时间 （开始时间） */
-            waterFlow.setStartDate(lastWFDate);
-            /** 5.当前时间 （结束时间） */
-            waterFlow.setEndDate(date);
+            int temp = waterFlowService.newWFAndInsert(moh, coh);
         }
-        /**
-         *      给temDate赋值，为了确保第二次显示的列表当中
-         *  能够使上一次记录的newDate和当前记录的lastDate保持一致
-         */
-        temDate = waterFlow.getEndDate();
 
+        // 水资源列表分页后的结果放在PageInfo中
+        PageInfo<WaterFlow> list = waterFlowService.findAllWFS(pageNow,pageSize);
 
-        //  传值监测水位H
-        BigDecimal bd = new BigDecimal(moh);
-        /** 6.水位H1 */
-        waterFlow.setMoh(bd);
-
-        // 传值H2下游水位
-        bd = new BigDecimal(coh);
-        /** 7.水位H2 */
-        waterFlow.setCoh(bd);
-
-        // 根据监测水位moh水位查询出流量Q
-        Water water = waterMapper.selectOne(moh);
-        BigDecimal Qn = new BigDecimal(water.getFlow());
-        /** 8.流量Q */
-        waterFlow.setFlow(Qn);
-
-        // 时段累积水量
-        timeFlow = timeFlow.add(Qn);
-        /** 9.时段累积水量Q总 */
-        waterFlow.setTimeFlow(timeFlow);
-
-        // 求和
-        totalFlow = totalFlow.add(timeFlow);
-        /** 10.区间累积水量Q总 */
-        waterFlow.setTotalFlow(totalFlow);
-
-        /** 11.备注 */
-        waterFlow.setRemark("备注");
-
-        // 调用WaterFlowMapper对WaterFlow对象进行添加
-        int temp = waterFlowMapper.saveWF(waterFlow);
-
-        // 水资源列表
-        List<WaterFlow> list = waterFlowMapper.findAllWFS();
-
+        //wf对象
+        model.addAttribute("wfList",list.getList());
+        //总条数
+        model.addAttribute("totalPage",list.getTotal());
+        //当前页面显示的条数
+        model.addAttribute("pageSize",(pageSize == null) ? 25 : pageSize);
+        //当前页面数
+        model.addAttribute("currentPage",(pageNow == null) ? 1 : pageNow);
         // 监测断面编号
-        String var1 = waterFlowMapper.getMonum();
+        model.addAttribute("monum",waterFlowService.getMonum());
         // 对比断面编号
-        String var2 = waterFlowMapper.getConum();
+        model.addAttribute("conum",waterFlowService.getConum());
 
-        model.addAttribute("wfList",list);
-        model.addAttribute("monum",var1);
-        model.addAttribute("conum",var2);
         return "freemarker/main";
     }
 }

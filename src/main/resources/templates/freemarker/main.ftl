@@ -2,7 +2,7 @@
 <html class="no-js">
 
     <head>
-        <title>Admin Home Page</title>
+        <title>乾元</title>
         <!-- Bootstrap -->
         <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
         <link href="/static/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen">
@@ -15,19 +15,17 @@
         <script src="/static/js/modernizr-2.6.2-respond-1.1.0.min.js"></script>
         <style>
             .table thead th{
-
                 text-align:center;
                 vertical-align: middle !important;
             }
             .table tbody tr td{
                 text-align:center;
             }
-
-
-
-
+            #complete ul li{
+                display:inline;
+                margin-left:15px;
+            }
         </style>
-
     </head>
 
     <body>
@@ -156,6 +154,19 @@
             <!--/span-->
             <div class="span9" id="content">
                 <div class="row-fluid">
+                    <#--行数打印版面-->
+<#--####################################################################################################-->
+                    <div style=" text-align: right  ">
+                        <span class="btn">每页显示行数</span>
+                        <select id="selt" class="btn" ">
+                            <option ${(pageSize==25)?string("selected","")} value="25">25</option>
+                            <option ${(pageSize==50)?string("selected","")} value="50">50</option>
+                            <option ${(pageSize==100)?string("selected","")} value="100">100</option>
+                        </select>
+                        <a class="btn btn-success">表单导出</a>
+                        <a class="btn btn-danger">表单打印</a>
+                        <a class="btn btn-info">时段流量计算</a>
+                    </div>
                     <!-- block -->
                     <div class="block">
                         <div class="navbar navbar-inner block-header">
@@ -201,7 +212,7 @@
                                     <tbody>
                                     <#list wfList as list>
                                     <tr>
-                                        <td>${list_index+1}</td>
+                                        <td>${(currentPage-1)*10+list_index+1}</td>
                                         <td>${list.moh}</td>
                                         <td>${list.velocity}</td>
                                         <td>${list.flow}</td>
@@ -218,6 +229,7 @@
                                     </#list>
                                     </tbody>
                                 </table>
+                                <div id="complete"></div>
                             </div>
                         </div>
                     </div>
@@ -234,10 +246,25 @@
         <script src="/static/bootstrap/js/bootstrap.min.js"></script>
         <script src="/static/js/jquery.easy-pie-chart.js"></script>
         <script src="/static/assets/scripts.js"></script>
+        <#--分页-->
+        <script src="/static/js/pageDo.js"></script>
+        <#--///-->
         <script>
         $(function() {
             // Easy pie charts
             $('.chart').easyPieChart({animate: 1000});
+        });
+
+
+        <#--分页-->
+        $(function () {
+            PagingManage($('#complete'),${totalPage},${pageSize},${currentPage});
+        });
+
+        <#--  select option change操作 ^^每页显示行数 -->
+        $("#selt").change(function(){
+            var opt=$("#selt").val();
+            window.location.href = "index?ps="+opt;
         });
         </script>
     </body>

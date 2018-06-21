@@ -19,7 +19,7 @@ public interface WaterFlowMapper {
 
 
     /**
-      * 存储一个WaterFlow对象
+     * 存储一个WaterFlow对象
      * @param waterFlow
      * @return
      */
@@ -38,8 +38,8 @@ public interface WaterFlowMapper {
             @Result(property = "timeFlow", column = "time_flow"),
             @Result(property = "totalFlow", column = "total_flow")
     })
-    List<WaterFlow> findAllWFS();
 
+    List<WaterFlow> findAllWFS();
 
     /**
      * 查询监测断面编号
@@ -56,12 +56,11 @@ public interface WaterFlowMapper {
     String getConum();
 
 
-
-    @Select("select end_date from t_water_flow order by id limit 1")
+    /**
+     * 查询最后一条数据的结束时间
+     * @return
+     */
+    @Select("select end_date from t_water_flow order by id desc limit 1")
     Date getLastWF();
-
-
-
-
 
 }
