@@ -47,11 +47,12 @@ public class WaterServiceImpl implements WaterService {
     }
 
     @Override
-    public PageInfo<Water> getWaterListWithPage(Integer pageNow,String waterDepth) {
+    public PageInfo<Water> getWaterListWithPage(Integer pageNow,Integer pageSize,String waterDepth) {
         pageNow = (pageNow==null)?1:pageNow;
-        PageHelper.startPage(pageNow,15);
+        pageSize = (pageSize==null)?1:pageSize;
+        PageHelper.startPage(pageNow,pageSize);
         List<Water> list = waterMapper.getWaterList(waterDepth);
-        PageInfo<Water> pageInfo = new PageInfo<>(list,15);
+        PageInfo<Water> pageInfo = new PageInfo<>(list);
         return pageInfo;
     }
 

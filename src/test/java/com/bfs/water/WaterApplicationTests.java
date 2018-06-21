@@ -1,6 +1,5 @@
 package com.bfs.water;
 
-import com.bfs.entity.User;
 import com.bfs.entity.Water;
 import com.bfs.mapper.UserMapper;
 import com.bfs.mapper.WaterMapper;
@@ -9,6 +8,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
