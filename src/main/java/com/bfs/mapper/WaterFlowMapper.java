@@ -1,10 +1,7 @@
 package com.bfs.mapper;
 
 import com.bfs.entity.WaterFlow;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.Date;
 import java.util.List;
@@ -62,5 +59,8 @@ public interface WaterFlowMapper {
      */
     @Select("select end_date from t_water_flow order by id desc limit 1")
     Date getLastWF();
+
+    @Delete("delete from t_water_flow where id = #{id}")
+    int deleteById(Long id);
 
 }

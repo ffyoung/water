@@ -164,4 +164,9 @@ public class WaterFlowServiceImpl implements WaterFlowService {
 
         return temp;
     }
+
+    @Override
+    public int deleteById(Long id) {
+        return waterFlowMapper.deleteById(id);
+    }
 }

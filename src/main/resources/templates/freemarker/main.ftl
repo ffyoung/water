@@ -212,7 +212,7 @@
                                     <tbody>
                                     <#list wfList as list>
                                     <tr>
-                                        <td>${(currentPage-1)*10+list_index+1}</td>
+                                        <td>${(currentPage-1)*pageSize+list_index+1}</td>
                                         <td>${list.moh}</td>
                                         <td>${list.velocity}</td>
                                         <td>${list.flow}</td>
@@ -223,8 +223,8 @@
                                         <td>${list.timeFlow}</td>
                                         <td>${list.totalFlow}</td>
                                         <td><a>设备管理</a></td>
-                                        <td><a>编辑</a></td>
-                                        <td><a>删除</a></td>
+                                        <td><a href="javascript: updateMsg(${list.id});">编辑</a></td>
+                                        <td><a href="javascript: deleteById(${list.id});">删除</a></td>
                                     </tr>
                                     </#list>
                                     </tbody>
@@ -255,6 +255,11 @@
             $('.chart').easyPieChart({animate: 1000});
         });
 
+        //分页跳转
+        function pageDo(page){
+            var url = "/user/index?pn="+page+"&ps="+${pageSize};
+            window.location.href = url;
+        }
 
         <#--分页-->
         $(function () {
@@ -266,6 +271,28 @@
             var opt=$("#selt").val();
             window.location.href = "index?ps="+opt;
         });
+
+        function deleteById(id) {
+            var url = "/wf/delete/" + id;
+            $.ajax({
+                type: "post",
+                url: url,
+                success: function (result) {
+                    if (result && result.status != 200) {
+                        alert("操作错误！");
+                    } else {
+                        window.location.reload();
+                    }
+                }
+            });
+        }
+
+        /*更改信息页面跳转*/
+        function updateMsg(id) {
+            var url = "/water/update/" + id;
+            window.location.href = url;
+        }
+
         </script>
     </body>
 
