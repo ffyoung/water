@@ -7,18 +7,20 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("water")
 public class WaterController {
+    protected Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
     @Autowired
     private WaterService waterService;
     @Autowired
@@ -37,24 +39,55 @@ public class WaterController {
         return "freemarker/page/hello";
     }
     @RequestMapping(value = "/list")
-    public String getWaterListWithPage(@RequestParam("pageNow") Integer pageNow,
-                                       @RequestParam("pageSize") Integer pageSize,
-                                       @RequestParam("waterDepth") String waterDepth,
+    public String getWaterListWithPage(@RequestParam(value = "pageNow",required = false) Integer pageNow,
+                                       @RequestParam(value = "waterDepth",required = false) String waterDepth,
                                        Model model){
         model.addAttribute("results",false);
-        PageInfo<Water> list = waterService.getWaterListWithPage(pageNow,pageSize,waterDepth);
+        PageInfo<Water> list = waterService.getWaterListWithPage(pageNow,waterDepth);
         if(list.getList().size() >= 1){
             model.addAttribute("results",true);
         }
-        int s = (int) list.getTotal();
         String var2 = waterFlowMapper.getConum();
         model.addAttribute("waterlist",list.getList());
-        model.addAttribute("totalPage",s);
+        model.addAttribute("totalPage",list.getTotal());
         pageNow = pageNow == null?1:pageNow;
         model.addAttribute("currentPage",pageNow);
         model.addAttribute("conum",var2);
-        model.addAttribute("pageSize",pageSize);
         model.addAttribute("waterDepth",waterDepth);
+        model.addAttribute("list",list);
         return "freemarker/list";
+    }
+    @RequestMapping(value = "/updateDo/{id}")
+    public String update(@PathVariable Integer id,Model model){
+        Water water = waterService.selectById(id);
+        if (water !=null) {
+            model.addAttribute(water);
+        }
+        return "freemarker/updatewater";
+    }
+    @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
+    public String selectById(@PathVariable Integer id,Model model) {
+        List<Water> waterList = new ArrayList<>();
+        Water water = waterService.selectById(id);
+        if (water !=null) {
+            waterList.add(water);
+        }
+        String var2 = waterFlowMapper.getConum();
+        model.addAttribute("conum",var2);
+        model.addAttribute("waterlist",waterList);
+        return "freemarker/water";
+    }
+    @RequestMapping(value = "updateWater", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> updateWater(Water water) {
+        resultMap.put("status", 400);
+        int result = waterService.updateWater(water);
+        if (result <= 0) {
+            resultMap.put("message", "信息修改失败");
+            return resultMap;
+        }
+        resultMap.put("message", "操作成功！");
+        resultMap.put("status", 200);
+        return resultMap;
     }
 }
