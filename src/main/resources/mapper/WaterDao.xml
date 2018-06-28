@@ -25,10 +25,9 @@
     </if>
         </where>
     </select>
+
     <insert id="addWater" parameterType="java.util.List">
-        INSERT
-        into
-        t_water
+        insert into t_water(water_level,flow)
         values
         <foreach collection="list" index="index" item="item" separator=",">
             (null,#{item.water_depth,jdbcType=VARCHAR},#{item.flow,jdbcType=VARCHAR},
