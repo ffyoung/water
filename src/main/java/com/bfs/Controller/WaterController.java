@@ -46,14 +46,13 @@ public class WaterController {
         if(list.getList().size() >= 1){
             model.addAttribute("results",true);
         }
-        int s = (int) list.getTotal();
         String var2 = waterFlowMapper.getConum();
         model.addAttribute("waterlist",list.getList());
-        model.addAttribute("totalPage",s);
+        model.addAttribute("totalPage",list.getTotal());
+        model.addAttribute("pageSize",pageSize);
         pageNow = pageNow == null?1:pageNow;
         model.addAttribute("currentPage",pageNow);
         model.addAttribute("conum",var2);
-        model.addAttribute("pageSize",pageSize);
         model.addAttribute("waterDepth",waterDepth);
         return "freemarker/list";
     }
