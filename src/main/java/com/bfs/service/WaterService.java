@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface WaterService {
     void addWaterList(MultipartFile file) throws Exception;
-    PageInfo<Water> getWaterListWithPage(Integer pageNow,Integer pageSize,String waterDepth);
-    int updateFlowByWaterDepth(Water water);
+    PageInfo<Water> getWaterListWithPage(Integer pageNow,String waterDepth);
+    int updateWater(Water water);
+    Water selectById(Integer id);
 }

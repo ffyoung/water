@@ -162,17 +162,8 @@
                         </div>
                     </div>
                     <div class="block-content collapse in">
-                        <form action="/water/list" method="post" autocomplete="off">
-
                         <div class="span12">
-                            <div class="input-group">
-                                <input style="margin-left: 0px" type="text" class="form-control" placeholder="小数点后保留三位" name="waterDepth"
-                                       value="${waterDepth?default('')}" id="waterDepth" />
-                                <span class="input-group-btn">
-                                    <input class="btn btn-default" type="submit" value="查找"/>
-                                </span>
-                            </div>
-                            <table class="table table-bordered table-hover">
+                            <table class="table" border="1">
                             <tr>
                                 <th>断面编号：</th>
                                 <th>1001001</th>
@@ -195,6 +186,7 @@
                                 <th>修正流量Q</th>
                                 <th>过水面积S</th>
                                 <th>平均流速V</th>
+                                <th rowspan="2">操作</th>
                                 <th rowspan="2">备注</th>
                             </tr>
                             <tr>
@@ -207,42 +199,17 @@
                                 <tbody>
                                     <#list waterlist as list>
                                     <tr>
-                                        <td>${(currentPage?default(1)-1)*15+list_index+1}</td>
+                                        <td>${list.id}</td>
                                         <td>${list.water_depth}</td>
                                         <td>${list.flow}</td>
                                         <td>${list.area}</td>
                                         <td>${list.volicity}</td>
+                                        <td><a href="javascript:updateMsg(${list.id})" + class="btn btn-default"">编辑</a></td>
                                         <td>${list.remark?default("")}</td>
                                     </tr>
                                     </#list>
                                 </tbody>
                             </table>
-                            <div class="message">
-                                共<i class="blue">${list.total}</i>条记录，当前显示第&nbsp;<i
-                                    class="blue">${list.pageNum}/${list.pages}</i>&nbsp;页
-                            </div>
-                            <div id="complete" style="text-align: center">
-                                <ul class="pagination">
-                                    <#if !list.isFirstPage>
-                                        <li><a href="javascript:queryAll(1);">首页</a></li>
-                                        <li><a href="javascript:queryAll(${list.prePage});">上一页</a></li>
-                                    </#if>
-                                    <#list list.navigatepageNums as navigatepageNum>
-                                        <#if navigatepageNum==list.pageNum>
-						<li class="active"><a href="javascript:queryAll(${navigatepageNum});">${navigatepageNum}</a></li>
-                                        </#if>
-                                        <#if navigatepageNum!=list.pageNum>
-						<li><a href="javascript:queryAll(${navigatepageNum});">${navigatepageNum}</a></li>
-                                        </#if>
-                                    </#list>
-                                    <#if !list.isLastPage>
-					<li><a href="javascript:queryAll(${list.nextPage});">下一页</a></li>
-					<li><a href="javascript:queryAll(${list.pages});">末页</a></li>
-                                    </#if>
-
-
-                                </ul>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -268,11 +235,13 @@
         $('.chart').easyPieChart({animate: 1000});
     });
 
-</script>
-</body>
-<script type="text/javascript">
-    function queryAll(pageNum) {
-        document.location.href="http://localhost:8080/water/list?pageNow="+pageNum;
+
+    /*更改信息页面跳转*/
+    function updateMsg(id) {
+        var url = "/water/updateDo/"+id;
+        window.location.href = url;
     }
 </script>
+</body>
+
 </html>

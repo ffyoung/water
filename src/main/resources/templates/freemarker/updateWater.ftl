@@ -8,24 +8,12 @@
     <link href="/static/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen">
     <link href="/static/css/jquery.easy-pie-chart.css" rel="stylesheet" media="screen">
     <link href="/static/assets/styles.css" rel="stylesheet" media="screen">
+    <link href="/static/js/layer.css" rel="stylesheet" media="screen">
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
     <script src="/static/js/modernizr-2.6.2-respond-1.1.0.min.js"></script>
-    <style>
-        .table thead th{
-            text-align:center;
-            vertical-align: middle !important;
-        }
-        .table tbody tr td{
-            text-align:center;
-        }
-        #complete ul li{
-            display:inline;
-            margin-left:15px;
-        }
-    </style>
 </head>
 
 <body>
@@ -40,7 +28,8 @@
             <div class="nav-collapse collapse">
                 <ul class="nav pull-right">
                     <li class="dropdown">
-                        <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-user"></i> Vincent Gabriel <i class="caret"></i>
+                        <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown"> <i
+                                class="icon-user"></i> Vincent Gabriel <i class="caret"></i>
 
                         </a>
                         <ul class="dropdown-menu">
@@ -95,7 +84,8 @@
                         </ul>
                     </li>
                     <li class="dropdown">
-                        <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">Content <i class="caret"></i>
+                        <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">Content <i
+                                class="caret"></i>
 
                         </a>
                         <ul class="dropdown-menu">
@@ -118,7 +108,8 @@
                         </ul>
                     </li>
                     <li class="dropdown">
-                        <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">Users <i class="caret"></i>
+                        <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">Users <i
+                                class="caret"></i>
 
                         </a>
                         <ul class="dropdown-menu">
@@ -152,98 +143,66 @@
             </ul>
         </div>
         <!--/span-->
-        <div class="span9" id="content">
-            <div class="row-fluid">
-                <!-- block -->
-                <div class="block">
-                    <div class="navbar navbar-inner block-header">
-                        <div style="font-size: large;text-align: center;">
-                            河南省信阳市平桥区老鸭河灌区1001001断面水位与流量对应关系表
-                        </div>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>水位修改 <small>数据修改</small></h2>
                     </div>
+                    <div class="clearfix"></div>
                     <div class="block-content collapse in">
-                        <form action="/water/list" method="post" autocomplete="off">
-
-                        <div class="span12">
-                            <div class="input-group">
-                                <input style="margin-left: 0px" type="text" class="form-control" placeholder="小数点后保留三位" name="waterDepth"
-                                       value="${waterDepth?default('')}" id="waterDepth" />
-                                <span class="input-group-btn">
-                                    <input class="btn btn-default" type="submit" value="查找"/>
-                                </span>
+                        <form id="waterform" class="form-horizontal container" method="post" role="form">
+                            <div class="form-group" hidden>
+                                <label for="control-label">id</label>
+                                <div class="col-sm-10">
+                                <input type="text" class="form-control" id="id" name="id" value="${water.id}">
+                                </div>
+                                </div>
+                            <div class="form-group container">
+                                <label for="control-label" class="col-md-6 control-label container">断面水深H: </label>
+                                <div class="col-sm-10">
+                                <input type="text" class="form-control" id="water_depth" name="water_depth" value="${water.water_depth}" readonly>
                             </div>
-                            <table class="table table-bordered table-hover">
-                            <tr>
-                                <th>断面编号：</th>
-                                <th>1001001</th>
-                                <th>最大水深：</th>
-                                <th>3000MM</th>
-                                <th>最大流量：</th>
-                                <th>5.000M³/S</th>
-                            </tr>
-                            <tr>
-                                <th>对比断面编号：</th>
-                                <th>${conum}</th>
-                                <th>断面间距：</th>
-                                <th>25M</th>
-                                <th>断面面积：</th>
-                                <th>5.500M²</th>
-                            </tr>
-                            <tr>
-                                <th rowspan="2">序号</th>
-                                <th>断面水深H</th>
-                                <th>修正流量Q</th>
-                                <th>过水面积S</th>
-                                <th>平均流速V</th>
-                                <th rowspan="2">备注</th>
-                            </tr>
-                            <tr>
-                                <th>(MM)</th>
-                                <th>(M³/S)</th>
-                                <th>（M²）</th>
-                                <th>（M/S)</th>
-                            </tr>
-                                </thead>
-                                <tbody>
-                                    <#list waterlist as list>
-                                    <tr>
-                                        <td>${(currentPage?default(1)-1)*15+list_index+1}</td>
-                                        <td>${list.water_depth}</td>
-                                        <td>${list.flow}</td>
-                                        <td>${list.area}</td>
-                                        <td>${list.volicity}</td>
-                                        <td>${list.remark?default("")}</td>
-                                    </tr>
-                                    </#list>
-                                </tbody>
-                            </table>
-                            <div class="message">
-                                共<i class="blue">${list.total}</i>条记录，当前显示第&nbsp;<i
-                                    class="blue">${list.pageNum}/${list.pages}</i>&nbsp;页
                             </div>
-                            <div id="complete" style="text-align: center">
-                                <ul class="pagination">
-                                    <#if !list.isFirstPage>
-                                        <li><a href="javascript:queryAll(1);">首页</a></li>
-                                        <li><a href="javascript:queryAll(${list.prePage});">上一页</a></li>
-                                    </#if>
-                                    <#list list.navigatepageNums as navigatepageNum>
-                                        <#if navigatepageNum==list.pageNum>
-						<li class="active"><a href="javascript:queryAll(${navigatepageNum});">${navigatepageNum}</a></li>
-                                        </#if>
-                                        <#if navigatepageNum!=list.pageNum>
-						<li><a href="javascript:queryAll(${navigatepageNum});">${navigatepageNum}</a></li>
-                                        </#if>
-                                    </#list>
-                                    <#if !list.isLastPage>
-					<li><a href="javascript:queryAll(${list.nextPage});">下一页</a></li>
-					<li><a href="javascript:queryAll(${list.pages});">末页</a></li>
-                                    </#if>
-
-
-                                </ul>
+                            <br>
+                            <div class="form-group container">
+                                <label for="control-label" class="col-sm-2 control-label">修正流量Q: </label>
+                                <div class="col-sm-10">
+                                <input type="text" class="form-control" id="flow" name="flow" value="${water.flow}">
                             </div>
-                        </div>
+                            </div>
+                            <br>
+                            <div class="form-group container">
+                                <label for="control-label" class="col-sm-2 control-label">过水面积S: </label>
+                                <div class="col-sm-10">
+                                <input type="text" class="form-control" id="area" name="area" value="${water.area}">
+                            </div>
+                            </div>
+                            <br>
+                            <div class="form-group container">
+                                    <label for="control-label" class="col-sm-2 control-label">平均流速: </label>
+                                <div class="col-sm-10">
+                                <input type="text" class="form-control" id="volicity" name="volicity" value="${water.volicity}">
+                            </div>
+                            </div>
+                            <br>
+                            <div class="form-group container">
+                                <label for="control-label" class="col-sm-2 control-label">备注: </label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="remark" name="remark" value="${water.remark}">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="form-group container">
+                                <label for="control-label" class="col-sm-2 control-label"></label>
+                                <div class="col-sm-10">
+                                    <button type="button" id="btn"  class="btn btn-success">修改</button>
+                                </div>
+                            </div>
+                            <#--<div class="center-block">-->
+                            <#--<button type="button" id="btn"  class="btn btn-success">修改</button>-->
+                            <#--</div>-->
+                        </form>
                     </div>
                 </div>
                 <!-- /block -->
@@ -261,18 +220,43 @@
 <script src="/static/assets/scripts.js"></script>
 <#--分页-->
 <script src="/static/js/pageDo.js"></script>
-<#--///-->
+<script src="/static/js/layer.js"></script>
 <script>
-    $(function() {
+    $(function () {
         // Easy pie charts
         $('.chart').easyPieChart({animate: 1000});
     });
 
+    jQuery(document).ready(
+            $("#btn").click(function () {
+                var from = $("#waterform");
+                var inputs = $("form :text");
+                var inlength = inputs.length;
+                for (var i = 0; i < inlength; i++) {
+                    var self = $(inputs[i]);
+                    if (self.val() == '') {
+                        self.focus();
+                        return layer.msg("信息不能为空", function () {
+                        }), !1;
+                    }
+                }
+
+                var load = layer.load();
+                $.post("/water/updateWater", $("#waterform").serialize(), function (result) {
+                    layer.close(load);
+                    if (result && result.status != 200) {
+                        return layer.msg(result.message, function () {
+                        }), !1;
+                    } else {
+                        layer.msg('修改成功!');
+                        setTimeout(function () {
+                            window.location.href = "/water/list?pageNow=" + 1;
+                        }, 2000);
+                    }
+                }, "json");
+            })
+    )
 </script>
+
 </body>
-<script type="text/javascript">
-    function queryAll(pageNum) {
-        document.location.href="http://localhost:8080/water/list?pageNow="+pageNum;
-    }
-</script>
 </html>

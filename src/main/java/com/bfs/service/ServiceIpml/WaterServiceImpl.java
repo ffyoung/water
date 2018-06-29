@@ -47,10 +47,9 @@ public class WaterServiceImpl implements WaterService {
     }
 
     @Override
-    public PageInfo<Water> getWaterListWithPage(Integer pageNow,Integer pageSize,String waterDepth) {
+    public PageInfo<Water> getWaterListWithPage(Integer pageNow,String waterDepth) {
         pageNow = (pageNow==null)?1:pageNow;
-        pageSize = (pageSize==null)?15:pageSize;
-        PageHelper.startPage(pageNow,pageSize);
+        PageHelper.startPage(pageNow,25);
         List<Water> list = waterMapper.getWaterList(waterDepth);
         PageInfo<Water> pageInfo = new PageInfo<>(list);
         return pageInfo;
@@ -58,7 +57,12 @@ public class WaterServiceImpl implements WaterService {
 
 
     @Override
-    public int updateFlowByWaterDepth(Water water) {
-        return waterMapper.updateFlowByWaterDepth(water);
+    public int updateWater(Water water) {
+        return waterMapper.updateWater(water);
+    }
+
+    @Override
+    public Water selectById(Integer id) {
+        return waterMapper.selectById(id);
     }
 }
