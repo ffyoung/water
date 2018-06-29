@@ -1,7 +1,6 @@
 package com.bfs.controller;
 
 import com.bfs.entity.User;
-import com.bfs.entity.Water;
 import com.bfs.entity.WaterFlow;
 import com.bfs.mapper.UserMapper;
 import com.bfs.mapper.WaterMapper;
@@ -11,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -40,7 +40,7 @@ public class UserController {
 
     @RequestMapping("login")
     public String loginIndex(){
-       return "freemarker/login";
+        return "freemarker/login";
     }
 
     @RequestMapping(value = "main")
@@ -65,8 +65,14 @@ public class UserController {
         // 新增一个WF对象并且执行insert操作
         if((moh == null || "".equals(moh))&& (( coh == null || "".equals(coh)))) {
             //空不执行
+
         }else {
-            int temp = waterFlowService.newWFAndInsert(moh, coh);
+
+            if(Math.abs(new BigDecimal(moh).subtract(new BigDecimal(coh)).doubleValue()) <= 0.005){
+                int tempOne = waterFlowService.minAbs(moh, coh);
+            }else{
+                int tempTwo = waterFlowService.newWFAndInsert(moh, coh);
+            }
         }
 
         // 水资源列表分页后的结果放在PageInfo中
@@ -74,8 +80,6 @@ public class UserController {
 
         //wf对象
         model.addAttribute("wfList",list.getList());
-        //总条数
-        model.addAttribute("totalPage",list.getTotal());
         //当前页面显示的条数
         model.addAttribute("pageSize",(pageSize == null) ? 25 : pageSize);
         //当前页面数
@@ -84,6 +88,7 @@ public class UserController {
         model.addAttribute("monum",waterFlowService.getMonum());
         // 对比断面编号
         model.addAttribute("conum",waterFlowService.getConum());
+        model.addAttribute("list",list);
 
         return "freemarker/main";
     }

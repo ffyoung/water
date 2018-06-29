@@ -28,7 +28,9 @@ public interface WaterFlowService {
 
     int deleteById(Long id);
 
+    int minAbs(String moh, String coh);
 
+    PageInfo<WaterFlow> getTimeList(Date startTime,Date endTime);
 
 
 

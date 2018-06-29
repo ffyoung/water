@@ -1,13 +1,13 @@
 package com.bfs.controller;
 
+import com.bfs.entity.WaterFlow;
 import com.bfs.service.WaterFlowService;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -38,5 +38,16 @@ public class WaterFlowController {
         resultMap.put("message", "操作成功！");
         resultMap.put("status", 200);
         return resultMap;
+    }
+
+    @RequestMapping(value = "betDate",method = RequestMethod.POST)
+    public String getDateWF(@RequestParam("startTime")Date startTime,
+                            @RequestParam("endTime")Date endTime){
+
+
+        PageInfo<WaterFlow> list = waterFlowService.getTimeList(startTime,endTime);
+
+
+        return "freemarker/main";
     }
 }

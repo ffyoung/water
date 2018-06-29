@@ -35,7 +35,6 @@ public interface WaterFlowMapper {
             @Result(property = "timeFlow", column = "time_flow"),
             @Result(property = "totalFlow", column = "total_flow")
     })
-
     List<WaterFlow> findAllWFS();
 
     /**
@@ -58,9 +57,39 @@ public interface WaterFlowMapper {
      * @return
      */
     @Select("select end_date from t_water_flow order by id desc limit 1")
-    Date getLastWF();
+    @Results({
+            @Result(property = "endDate", column = "end_date"),
+    })
+    Date getLastWFendDate();
 
+    /**
+     * 查询最后一条数据
+     * @return
+     */
+    @Select("select * from t_water_flow order by id desc limit 1")
+    @Results({
+            @Result(property = "startDate",  column = "start_date"),
+            @Result(property = "endDate", column = "end_date"),
+            @Result(property = "timeFlow", column = "time_flow"),
+            @Result(property = "totalFlow", column = "total_flow")
+    })
+    WaterFlow getLastWF();
+
+    /**
+     * 根据Id查询
+     * @param id
+     * @return
+     */
     @Delete("delete from t_water_flow where id = #{id}")
     int deleteById(Long id);
+
+    /**
+     * 根据end_time列  查询时间的起始到结束时间的所有信息。
+     * @param startTime
+     * @param endTime
+     * @return
+     */
+    @Select(" select * from t_water_flow  where end_date between #{startTime} and #{endTime}")
+    List<WaterFlow> getTimeList(Date startTime,Date endTime);
 
 }
