@@ -29,6 +29,13 @@ public class WaterController {
     public String waterAdd(){
         return "freemarker/importWater";
     }
+
+    /**
+     * 导入excel数据
+     * @param request
+     * @return
+     * @throws Exception
+     */
     @RequestMapping(value = "/excel", method = RequestMethod.POST)
     public String importExcel(HttpServletRequest request) throws Exception {
         //获取上传的文件
@@ -38,6 +45,14 @@ public class WaterController {
         waterService.addWaterList(file);
         return "freemarker/page/hello";
     }
+
+    /**
+     * 分页查询所有
+     * @param pageNow
+     * @param waterDepth
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "/list")
     public String getWaterListWithPage(@RequestParam(value = "pageNow",required = false) Integer pageNow,
                                        @RequestParam(value = "waterDepth",required = false) String waterDepth,
@@ -49,7 +64,6 @@ public class WaterController {
         }
         String var2 = waterFlowMapper.getConum();
         model.addAttribute("waterlist",list.getList());
-        model.addAttribute("totalPage",list.getTotal());
         pageNow = pageNow == null?1:pageNow;
         model.addAttribute("currentPage",pageNow);
         model.addAttribute("conum",var2);
@@ -57,6 +71,13 @@ public class WaterController {
         model.addAttribute("list",list);
         return "freemarker/list";
     }
+
+    /**
+     * 根据Id修改
+     * @param id
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "/updateDo/{id}")
     public String update(@PathVariable Integer id,Model model){
         Water water = waterService.selectById(id);
@@ -65,6 +86,13 @@ public class WaterController {
         }
         return "freemarker/updatewater";
     }
+
+    /**
+     * 根据Id查询
+     * @param id
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
     public String selectById(@PathVariable Integer id,Model model) {
         List<Water> waterList = new ArrayList<>();
@@ -77,6 +105,12 @@ public class WaterController {
         model.addAttribute("waterlist",waterList);
         return "freemarker/water";
     }
+
+    /**
+     * 修改执行
+     * @param water
+     * @return
+     */
     @RequestMapping(value = "updateWater", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> updateWater(Water water) {

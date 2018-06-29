@@ -207,7 +207,7 @@
                                 <tbody>
                                     <#list waterlist as list>
                                     <tr>
-                                        <td>${(currentPage?default(1)-1)*15+list_index+1}</td>
+                                        <td>${(currentPage?default(1)-1)*25+list_index+1}</td>
                                         <td>${list.water_depth}</td>
                                         <td>${list.flow}</td>
                                         <td>${list.area}</td>
@@ -259,9 +259,6 @@
 <script src="/static/bootstrap/js/bootstrap.min.js"></script>
 <script src="/static/js/jquery.easy-pie-chart.js"></script>
 <script src="/static/assets/scripts.js"></script>
-<#--分页-->
-<script src="/static/js/pageDo.js"></script>
-<#--///-->
 <script>
     $(function() {
         // Easy pie charts

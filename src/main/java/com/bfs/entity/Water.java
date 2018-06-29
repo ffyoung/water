@@ -2,10 +2,15 @@ package com.bfs.entity;
 
 public class Water {
     private Integer id;
+    /**断面水深*/
     private String water_depth;
+    /**流量*/
     private String flow;
+    /**过水面积*/
     private String area;
+    /**平均流速*/
     private String volicity;
+    /**备注*/
     private String remark;
 
     public Integer getId() {

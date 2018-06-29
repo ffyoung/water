@@ -17,6 +17,12 @@ import java.util.List;
 public class WaterServiceImpl implements WaterService {
     @Autowired
     private WaterMapper waterMapper;
+
+    /**
+     * 导入excel数据到数据库
+     * @param file
+     * @throws Exception
+     */
     @Override
     public void addWaterList(MultipartFile file) throws Exception {
         List<Water> waterList = new ArrayList<>();
@@ -46,6 +52,12 @@ public class WaterServiceImpl implements WaterService {
         waterMapper.addWater(waterList);
     }
 
+    /**
+     * pageHelper分页
+     * @param pageNow
+     * @param waterDepth
+     * @return
+     */
     @Override
     public PageInfo<Water> getWaterListWithPage(Integer pageNow,String waterDepth) {
         pageNow = (pageNow==null)?1:pageNow;
@@ -55,12 +67,21 @@ public class WaterServiceImpl implements WaterService {
         return pageInfo;
     }
 
-
+    /**
+     * 修改数据
+     * @param water
+     * @return
+     */
     @Override
     public int updateWater(Water water) {
         return waterMapper.updateWater(water);
     }
 
+    /**
+     * 根据Id查询
+     * @param id
+     * @return
+     */
     @Override
     public Water selectById(Integer id) {
         return waterMapper.selectById(id);
